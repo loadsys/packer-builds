@@ -208,6 +208,7 @@
         "scripts/common/virtualbox.sh",
         "scripts/common/vmware.sh",
         "scripts/common/parallels.sh",
+        "scripts/common/lamp.sh",
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
