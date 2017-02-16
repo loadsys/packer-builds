@@ -181,6 +181,7 @@
   "post-processors": [
     {
       "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+      "keep_input_artifact": true,
       "type": "vagrant"
     }
   ],
@@ -208,7 +209,6 @@
         "scripts/common/virtualbox.sh",
         "scripts/common/vmware.sh",
         "scripts/common/parallels.sh",
-        "scripts/common/lamp.sh",
         "scripts/debian/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
