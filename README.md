@@ -1,51 +1,15 @@
-# Bento
+# Loadsys Packer Builds
 
+<!--
 [![Build Status](http://img.shields.io/travis/chef/bento.svg)][travis]
 
-Bento is a project that encapsulates [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. We use these boxes internally at Chef Software, Inc. for testing Hosted Chef, Chef Server and our open source [cookbooks](https://supermarket.chef.io/users/chef) via [test-kitchen](http://kitchen.ci/).
+This repository contains [Packer](https://www.packer.io/) templates for building [Vagrant](https://www.vagrantup.com/) base boxes. It may be used to build other provider images in the future. It is derived from the [chef/bento](https://github.com/chef/bento) repository and mainly adds new templates and scripts. We use these boxes internally at Loadsys for our project environments.
+
+This project is managed by Loadsys. Currently, some of the documentation files may still reference Chef and Chef team members.
 
 ## Pre-built Boxes
 
-The following boxes are built from this repository's templates for publicly available platforms and are currently hosted via Atlas in the [bento organization](https://atlas.hashicorp.com/bento/). Boxes listed that are struck out (~~box~~) are broken/unreleased for the current version.
-
-### 64 bit
-
-|                    | VirtualBox                     | VMware                            | Parallels                     |
-|------------------- | ------------------------------ | --------------------------------- | ------------------------------|
-| centos-5.11        | [x86_64][centos_511_64_vbox]   | [x86_64][centos_511_64_vmware]    | [x86_64][centos_511_64_prl]   |
-| centos-6.8         | [x86_64][centos_68_64_vbox]    | [x86_64][centos_68_64_vmware]     | [x86_64][centos_68_64_prl]    |
-| centos-7.3         | [x86_64][centos_73_64_vbox]    | [x86_64][centos_73_64_vmware]     | [x86_64][centos_73_64_prl]    |
-| debian-7.11        | [amd64][debian_711_64_vbox]    | [amd64][debian_711_64_vmware]     | [amd64][debian_711_64_prl]    |
-| debian-8.6         | [amd64][debian_86_64_vbox]     | [amd64][debian_86_64_vmware]      | [amd64][debian_86_64_prl]     |
-| fedora-24          | [x86_64][fedora_24_64_vbox]    | [x86_64][fedora_24_64_vmware]     | [x86_64][fedora_24_64_prl]    |
-| fedora-25          | [x86_64][fedora_25_64_vbox]    | [x86_64][fedora_25_64_vmware]     | [x86_64][fedora_25_64_prl]    |
-| freebsd-10.3       | [amd64][freebsd_103_64_vbox]   | [amd64][freebsd_103_64_vmware]    | [amd64][freebsd_103_64_prl]   |
-| freebsd-11.0       | [amd64][freebsd_110_64_vbox]   | [amd64][freebsd_110_64_vmware]    | [amd64][freebsd_110_64_prl]   |
-| opensuse-leap-42.2 | ~~[x86_64][leap_422_64_vbox]~~ | [x86_64][leap_422_64_vmware]      | ~~[x86_64][leap_422_64_prl]~~ |
-| oracle-5.11        | [x86_64][oracle_511_64_vbox]   | [x86_64][oracle_511_64_vmware]    | [x86_64][oracle_511_64_prl]   |
-| oracle-6.8         | [x86_64][oracle_68_64_vbox]    | [x86_64][oracle_68_64_vmware]     | [x86_64][oracle_68_64_prl]    |
-| oracle-7.3         | [x86_64][oracle_73_64_vbox]    | [x86_64][oracle_73_64_vmware]     | [x86_64][oracle_73_64_prl]    |
-| ubuntu-12.04       | [amd64][ubuntu_1204_64_vbox]   | [amd64][ubuntu_1204_64_vmware]    | [amd64][ubuntu_1204_64_prl]   |
-| ubuntu-14.04       | [amd64][ubuntu_1404_64_vbox]   | [amd64][ubuntu_1404_64_vmware]    | [amd64][ubuntu_1404_64_prl]   |
-| ubuntu-16.04       | [amd64][ubuntu_1604_64_vbox]   | [amd64][ubuntu_1604_64_vmware]    | [amd64][ubuntu_1604_64_prl]   |
-| ubuntu-16.10       | [amd64][ubuntu_1610_64_vbox]   | [amd64][ubuntu_1610_64_vmware]    | [amd64][ubuntu_1610_64_prl]   |
-
-### 32 bit
-
-|               | VirtualBox                   | VMware                          | Parallels                   |
-|-------------- | ---------------------------- | ------------------------------- | ----------------------------|
-| centos-5.11   | [i386][centos_511_32_vbox]   | [i386][centos_511_32_vmware]    | [i386][centos_511_32_prl]   |
-| centos-6.8    | [i386][centos_68_32_vbox]    | [i386][centos_68_32_vmware]     | [i386][centos_68_32_prl]    |
-| debian-7.11   | [i386][debian_711_32_vbox]   | [i386][debian_711_32_vmware]    | [i386][debian_711_32_prl]   |
-| debian-8.6    | [i386][debian_86_32_vbox]    | [i386][debian_86_32_vmware]     | [i386][debian_86_32_prl]    |
-| oracle-5.11   | [x86_64][oracle_511_32_vbox] | [x86_64][oracle_511_32_vmware]  | [x86_64][oracle_511_32_prl] |
-| oracle-6.8    | [x86_64][oracle_68_32_vbox]  | [x86_64][oracle_68_32_vmware]   | [x86_64][oracle_68_32_prl]  |
-| ubuntu-12.04  | [i386][ubuntu_1204_32_vbox]  | [i386][ubuntu_1204_32_vmware]   | [i386][ubuntu_1204_32_prl]  |
-| ubuntu-14.04  | [i386][ubuntu_1404_32_vbox]  | [i386][ubuntu_1404_32_vmware]   | [i386][ubuntu_1404_32_prl]  |
-| ubuntu-16.04  | [i386][ubuntu_1604_32_vbox]  | [i386][ubuntu_1604_32_vmware]   | [i386][ubuntu_1604_32_prl]  |
-| ubuntu-16.10  | [i386][ubuntu_1610_32_vbox]  | [i386][ubuntu_1610_32_vmware]   | [i386][ubuntu_1610_32_prl]  |
-
-_NOTE_ This table tracks only the latest release for a given version. Boxes may exist in Atlas or S3 but are not guaranteed to be updated at this time.
+Boxes built from this repository's templates for publicly available platforms are currently hosted via Atlas in the [loadsys organization](https://atlas.hashicorp.com/loadsys/).
 
 ### Build Notes
 
@@ -61,6 +25,7 @@ Recent Linux distributions use [systemd's logic to predictably name network devi
 
 As a workaround we've started to provide the changed PCI slot id as a custom value with the packer definitions with Ubuntu 15.10+ and Debian 8+. However this is not yet tested, may not solve the issue and/or break compatibility with other VMWare products/versions!
 
+<!--
 ## Older Boxes
 
 The contents of this Github repository represent the current state of Bento and not every packer config that has ever existed in the Bento project. As a distribution is made end of life or a newer minor version of a distribution ships, we will remove the existing configurations. At the time of the next Bento release those deprecations will be noted in the release notes. If you'd like to build that release for some reason, your best course of action is to checkout the release tag in git and use the existing configs at their last known working state.
@@ -81,13 +46,16 @@ Vagrant.configure("2") do |config|
 end
 ```
 
+-->
 ## Requirements
 
 - [Packer](https://www.packer.io/)
 - At least one virtualization provider: Virtualbox, VMware Fusion, Parallels Desktop, etc
+- A license for VMware Fusion Pro for the VMWare Fusion provider.
 
-## Build Your Own Bento Boxes
+## Build Your Own Boxes
 
+<!--
 ### Using `bento`
 
 ```
@@ -108,6 +76,8 @@ To build a box for a single provider:
 $ bento build --only=virtualbox-iso debian-8.6-amd64
 ```
 
+## comment note: remove the \ from -\- above
+-->
 ### Using `packer`
 
 Templates can still be built directly by `packer`
@@ -142,6 +112,7 @@ Notes:
 
 - The box_basename can be overridden like other Packer vars with `-var 'box_basename=debian-8.6'`
 
+<!--
 ### Proprietary Boxes
 
 Mac OS X, Red Hat Enterprise Linux, and SUSE Linux Enterprise Server templates are provided. However, their ISOs are not publicly retrievable and as such, the URLs in those templates are bogus. For RHEL and SLES, substitute a server where the ISOs are hosted, using the mirror variable as above.
@@ -180,25 +151,16 @@ Since Packer tries to log in with user `vagrant` but it was not created successf
 
 By default, when cloning this repository, git should normalize `ks.cfg`, `preseed.cfg` and `*.sh` to Unix line endings and `*.bat` to Windows line endings, thanks to the <.gitattributes> file in the repository. However, if it's not the case because you have overridden line-ending conversion in your own git configuration, convert the offending files so they have the correct line endings.
 
+-->
 ## Bugs and Issues
 
 Please use GitHub issues to report bugs, features, or other problems.
 
 ## License & Authors
 
-These basebox templates were converted from [veewee](https://github.com/jedi4ever/veewee) definitions originally based on [work done by Tim Dysinger](https://github.com/dysinger/basebox) to make "Don't Repeat Yourself" (DRY) modular baseboxes. Thanks Tim!
+All of the hard work was done by the [bento authors](https://github.com/chef/bento#license--authors).
 
-Mac OS X templates were adopted wholesale from [Fletcher Nichol's packer templates](https://github.com/fnichol/packer-templates).
-
-- Author: Seth Chisamore ([schisamo@chef.io](mailto:schisamo@chef.io))
-- Author: Stephen Delano ([stephen@chef.io](mailto:stephen@chef.io))
-- Author: Joshua Timberman ([joshua@chef.io](mailto:joshua@chef.io))
-- Author: Tim Dysinger ([tim@dysinger.net](mailto:tim@dysinger.net))
-- Author: Chris McClimans ([chris@hippiehacker.org](mailto:chris@hippiehacker.org))
-- Author: Julian Dunn ([jdunn@chef.io](mailto:jdunn@chef.io))
-- Author: Tom Duffield ([tom@chef.io](mailto:tom@chef.io))
-- Author: Ross Timson ([ross@rosstimson.com](mailto:ross@rosstimson.com))
-- Author: Fletcher Nichol ([fnichol@nichol.ca](mailto:fnichol@nichol.ca))
+Any changes by Loadsys are currently in the `cakephp` branch.
 
 ```text
 Copyright 2012-2016, Chef Software, Inc. (<legal@chef.io>)
