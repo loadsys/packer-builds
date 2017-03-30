@@ -120,7 +120,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "repo_owner": "loadsys",
     "template": "cakephp-nginx-php5.6-dev",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "virtualbox_source_path": "packer-cakephp-nginx-php5.6-virtualbox/cakephp-nginx-php5.6.ovf",
     "vmware_source_path": "packer-cakephp-nginx-php5.6-vmware/cakephp-nginx-php5.6.vmx"
   }
