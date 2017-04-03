@@ -1,5 +1,14 @@
+## Install CakePHP development server extras
+
+# PHP versions supported by this script
+# PHP5.4 (debian 7.11) uses PHP_SUFFIX=5
+# PHP5.6 (ubuntu 14.04) uses PHP_SUFFIX=5.6
+# PHP7.0 (ubuntu 16.04) uses PHP_SUFFIX=
+
+
 # dev related packages
-sudo apt-get install -y libsqlite3-dev php${PHP_SUFFIX}-sqlite php${PHP_SUFFIX}-xdebug
+[ "$PHP_SUFFIX" = "5" ] && PHP_SQLITE="php5-sqlite" || PHP_SQLITE="php${PHP_SUFFIX}-sqlite3"
+sudo apt-get install -y libsqlite3-dev ${PHP_SQLITE} php${PHP_SUFFIX}-xdebug
 
 # mysql
 export DEBIAN_FRONTEND="noninteractive"
@@ -15,5 +24,5 @@ sudo sed -i '/-l/c -l 0.0.0.0' /etc/memcached.conf
 sudo service memcached restart
 
 # enable installed php mods
-[ $PHP_SUFFIX = "5" ] && PHP_ENMOD="php5enmod" || PHP_ENMOD="phpenmod"
+[ "$PHP_SUFFIX" = "5" ] && PHP_ENMOD="php5enmod" || PHP_ENMOD="phpenmod"
 sudo $PHP_ENMOD memcached sqlite3 pdo_sqlite xdebug

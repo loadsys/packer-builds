@@ -99,6 +99,7 @@
         "scripts/common/metadata.sh",
         "scripts/ubuntu/update.sh",
         "scripts/debian/dev.sh",
+        "scripts/ubuntu/mailhog.sh",
         "scripts/ubuntu/cleanup.sh",
         "scripts/common/minimize.sh"
       ],
@@ -120,7 +121,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "repo_owner": "loadsys",
     "template": "cakephp-dev",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "virtualbox_source_path": "packer-cakephp-virtualbox/cakephp.ovf",
     "vmware_source_path": "packer-cakephp-vmware/cakephp.vmx"
   }
