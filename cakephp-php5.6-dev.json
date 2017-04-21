@@ -1,0 +1,128 @@
+{
+  "builders": [
+    {
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "headless": "{{ user `headless` }}",
+      "http_directory": "http",
+      "output_directory": "packer-{{user `template`}}-virtualbox",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "source_path": "{{ user `virtualbox_source_path` }}",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-ovf",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "{{ user `memory` }}"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "{{ user `cpus` }}"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "{{ user `template` }}"
+    },
+    {
+      "headless": "{{ user `headless` }}",
+      "http_directory": "http",
+      "output_directory": "packer-{{user `template`}}-vmware",
+      "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+      "source_path": "{{ user `vmware_source_path` }}",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-vmx",
+      "vm_name": "{{ user `template` }}",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "{{ user `memory` }}",
+        "numvcpus": "{{ user `cpus` }}"
+      }
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "output": "builds/{{user `box_basename`}}.{{.Provider}}.box",
+        "type": "vagrant"
+      },
+      {
+        "artifact": "{{ user `repo_owner` }}/{{ user `name` }}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "description": "{{ user `description` }}",
+          "provider": "virtualbox",
+          "version": "{{ user `version` }}"
+        },
+        "only": ["virtualbox-ovf"],
+        "type": "atlas"
+      },
+      {
+        "artifact": "{{ user `repo_owner` }}/{{ user `name` }}",
+        "artifact_type": "vagrant.box",
+        "metadata": {
+          "description": "{{ user `description` }}",
+          "is_private": false,
+          "provider": "vmware_desktop",
+          "version": "{{ user `version` }}"
+        },
+        "only": ["vmware-vmx"],
+        "type": "atlas"
+      }
+    ]
+  ],
+  "provisioners": [
+    {
+      "destination": "/tmp/bento-metadata.json",
+      "source": "{{user `metadata`}}",
+      "type": "file"
+    },
+    {
+      "environment_vars": [
+        "HOME_DIR=/home/vagrant",
+        "http_proxy={{user `http_proxy`}}",
+        "https_proxy={{user `https_proxy`}}",
+        "no_proxy={{user `no_proxy`}}",
+        "PHP_SUFFIX=5.6"
+      ],
+      "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
+      "scripts": [
+        "scripts/common/metadata.sh",
+        "scripts/ubuntu/update.sh",
+        "scripts/debian/dev.sh",
+        "scripts/ubuntu/cleanup.sh",
+        "scripts/common/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "box_basename": "cakephp-php5.6-dev",
+    "build_timestamp": "{{isotime \"20060102150405\"}}",
+    "cpus": "1",
+    "description": "Vagrant box with Apache 2, PHP 5.6, MySQL 5.5, and Memcached 1.4. Optimized for CakePHP development.",
+    "git_revision": "__unknown_git_revision__",
+    "headless": "",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "memory": "512",
+    "metadata": "floppy/dummy_metadata.json",
+    "name": "cakephp-php5.6-dev",
+    "no_proxy": "{{env `no_proxy`}}",
+    "repo_owner": "loadsys",
+    "template": "cakephp-php5.6-dev",
+    "version": "0.0.2",
+    "virtualbox_source_path": "packer-cakephp-php5.6-virtualbox/cakephp-php5.6.ovf",
+    "vmware_source_path": "packer-cakephp-php5.6-vmware/cakephp-php5.6.vmx"
+  }
+}
+
