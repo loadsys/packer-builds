@@ -110,7 +110,7 @@
     "box_basename": "cakephp-php5.4-dev",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
-    "description": "Vagrant box with PHP 5.4, optimized for CakePHP devolpment.",
+    "description": "Vagrant box with PHP 5.4, optimized for CakePHP development.",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -121,7 +121,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "repo_owner": "loadsys",
     "template": "cakephp-php5.4-dev",
-    "version": "0.0.1",
+    "version": "0.0.4",
     "virtualbox_source_path": "packer-cakephp-php5.4-virtualbox/cakephp-php5.4.ovf",
     "vmware_source_path": "packer-cakephp-php5.4-vmware/cakephp-php5.4.vmx"
   }
