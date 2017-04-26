@@ -11,10 +11,17 @@
 sudo apt-get install -y libsqlite3-dev ${PHP_SQLITE} php${PHP_SUFFIX}-xdebug
 
 # mysql
+[ "$MYSQL_SUFFIX" = "5.6" ] && MYSQLPKG="mysql-server-5.6" || MYSQLPKG="mysql-server"
 export DEBIAN_FRONTEND="noninteractive"
 echo 'mysql-server mysql-server/root_password password password' | sudo debconf-set-selections
 echo 'mysql-server mysql-server/root_password_again password password' | sudo debconf-set-selections
-sudo apt-get -y install mysql-server
+if [ "$MYSQL_SUFFIX" = "5.6" ]; then
+	sudo apt-get -y install mysql-client-5.6 mysql-client-core-5.6
+fi
+sudo apt-get -y install $MYSQLPKG
+
+# Stop MySQL server so we have memory for build cleanup
+sudo service mysql stop
 
 # memcached
 sudo apt-get install -y memcached php${PHP_SUFFIX}-memcached

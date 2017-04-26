@@ -92,7 +92,8 @@
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
         "no_proxy={{user `no_proxy`}}",
-        "PHP_SUFFIX=5.6"
+        "PHP_SUFFIX=5.6",
+        "MYSQL_SUFFIX=5.6"
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
@@ -109,7 +110,7 @@
     "box_basename": "cakephp-nginx-php5.6-dev",
     "build_timestamp": "{{isotime \"20060102150405\"}}",
     "cpus": "1",
-    "description": "Vagrant box with Nginx 1.10, PHP 5.6, MySQL 5.5, and Memcached 1.4. Optimized for CakePHP development.",
+    "description": "Vagrant box with Nginx 1.10, PHP 5.6, MySQL 5.6, and Memcached 1.4. Optimized for CakePHP development.",
     "git_revision": "__unknown_git_revision__",
     "headless": "",
     "http_proxy": "{{env `http_proxy`}}",
@@ -120,7 +121,7 @@
     "no_proxy": "{{env `no_proxy`}}",
     "repo_owner": "loadsys",
     "template": "cakephp-nginx-php5.6-dev",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "virtualbox_source_path": "packer-cakephp-nginx-php5.6-virtualbox/cakephp-nginx-php5.6.ovf",
     "vmware_source_path": "packer-cakephp-nginx-php5.6-vmware/cakephp-nginx-php5.6.vmx"
   }

@@ -93,7 +93,8 @@
         "http_proxy={{user `http_proxy`}}",
         "https_proxy={{user `https_proxy`}}",
         "no_proxy={{user `no_proxy`}}",
-        "PHP_SUFFIX=5"
+        "PHP_SUFFIX=5",
+        "MYSQL_SUFFIX="
       ],
       "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E sh -eux '{{.Path}}'",
       "scripts": [
